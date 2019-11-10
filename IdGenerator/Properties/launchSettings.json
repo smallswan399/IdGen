@@ -1,0 +1,52 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:61150",
+      "sslPort": 44339
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IdentifyRedisGenerator": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "REDIS_DB_INDEX": "1",
+        "REDIS_ADDRESS": "debian-dev",
+        "REDIS_PORT": "6379",
+        "IDENTITY_LOW_LIMIT": "100000",
+        "INTERVAL": "10000"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
+      "environmentVariables": {
+        "REDIS_DB_INDEX": "1",
+        "REDIS_ADDRESS": "debian-dev",
+        "REDIS_PORT": "6379",
+        "IDENTITY_LOW_LIMIT": "100000",
+        "INTERVAL": "10000",
+        "ASPNETCORE_URLS": "https://+:443;http://+:80",
+        "ASPNETCORE_HTTPS_PORT": "44340"
+      },
+      "httpPort": 61151,
+      "useSSL": true,
+      "sslPort": 44340
+    }
+  }
+}
