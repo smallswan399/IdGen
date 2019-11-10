@@ -1,19 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IdGen;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
-namespace IdentifyRedisGenerator
+namespace IdGenerator
 {
     public class Startup
     {
@@ -28,9 +23,31 @@ namespace IdentifyRedisGenerator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton(c => new IdGenerator(0, new MaskConfig(42, 0, 21)));
-            services.AddSingleton(c => ConnectionMultiplexer.Connect("debian-dev"));
-            services.AddTransient(c => c.GetService<ConnectionMultiplexer>().GetDatabase(1));
+            services.AddSingleton(c => new IdGen.IdGenerator(0, new MaskConfig(42, 0, 21)));
+            services.AddSingleton(c =>
+            {
+                var appSettings = c.GetService<IOptions<AppSettings>>();
+                return ConnectionMultiplexer.Connect($"{appSettings.Value.RedisHost}:{appSettings.Value.RedisPort}");
+
+            });
+            services.AddTransient(c =>
+            {
+                var appSettings = c.GetService<IOptions<AppSettings>>();
+                return c.GetService<ConnectionMultiplexer>().GetDatabase(appSettings.Value.RedisDb);
+            });
+            services.Configure<AppSettings>(option =>
+            {
+                option.RedisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ??
+                                   throw new InvalidOperationException();
+                option.RedisPort = Environment.GetEnvironmentVariable("REDIS_PORT") ??
+                                   throw new InvalidOperationException();
+                option.RedisDb = int.Parse(Environment.GetEnvironmentVariable("REDIS_DB") ??
+                                           throw new InvalidOperationException());
+                option.LowLimit = int.Parse(Environment.GetEnvironmentVariable("LOW_LIMIT") ??
+                                            throw new InvalidOperationException());
+                option.Interval = int.Parse(Environment.GetEnvironmentVariable("INTERVAL") ??
+                                            throw new InvalidOperationException());
+            });
             services.AddHostedService<TimedHostedService>();
         }
 

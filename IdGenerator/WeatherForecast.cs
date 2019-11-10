@@ -1,6 +1,6 @@
 using System;
 
-namespace IdentifyRedisGenerator
+namespace IdGenerator
 {
     public class WeatherForecast
     {

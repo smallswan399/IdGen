@@ -22,12 +22,12 @@
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "REDIS_DB_INDEX": "1",
-        "REDIS_ADDRESS": "debian-dev",
+        "REDIS_HOST": "debian-dev",
         "REDIS_PORT": "6379",
-        "IDENTITY_LOW_LIMIT": "100000",
-        "INTERVAL": "10000"
+        "INTERVAL": "60",
+        "LOW_LIMIT": "100000",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "REDIS_DB": "1"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     },
@@ -36,13 +36,13 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
       "environmentVariables": {
-        "REDIS_DB_INDEX": "1",
-        "REDIS_ADDRESS": "debian-dev",
         "REDIS_PORT": "6379",
-        "IDENTITY_LOW_LIMIT": "100000",
-        "INTERVAL": "10000",
+        "LOW_LIMIT": "100000",
         "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "44340"
+        "ASPNETCORE_HTTPS_PORT": "44340",
+        "INTERVAL": "60",
+        "REDIS_DB": "1",
+        "REDIS_HOST": "debian-dev"
       },
       "httpPort": 61151,
       "useSSL": true,

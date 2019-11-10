@@ -17,4 +17,9 @@ RUN dotnet publish "IdGenerator.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV REDIS_ADDRESS=127.0.0.1
+ENV REDIS_PORT=6379
+ENV REDIS_DB=0
+ENV IDENTITY_LOW_LIMIT=100000
+ENV INTERVAL=86400
 ENTRYPOINT ["dotnet", "IdGenerator.dll"]
