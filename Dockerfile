@@ -5,16 +5,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
-COPY ["IdentifyRedisGenerator/IdentifyRedisGenerator.csproj", "IdentifyRedisGenerator/"]
-RUN dotnet restore "IdentifyRedisGenerator/IdentifyRedisGenerator.csproj"
+COPY ["IdGenerator/IdGenerator.csproj", "IdGenerator/"]
+RUN dotnet restore "IdGenerator/IdGenerator.csproj"
 COPY . .
-WORKDIR "/src/IdentifyRedisGenerator"
-RUN dotnet build "IdentifyRedisGenerator.csproj" -c Release -o /app/build
+WORKDIR "/src/IdGenerator"
+RUN dotnet build "IdGenerator.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "IdentifyRedisGenerator.csproj" -c Release -o /app/publish
+RUN dotnet publish "IdGenerator.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "IdentifyRedisGenerator.dll"]
+ENTRYPOINT ["dotnet", "IdGenerator.dll"]
