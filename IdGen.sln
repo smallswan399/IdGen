@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51E6E025-F554-453A-8850-32378CA48C38}"
 	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
