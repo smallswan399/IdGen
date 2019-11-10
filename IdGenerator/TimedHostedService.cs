@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace IdGenerator
@@ -58,6 +60,7 @@ namespace IdGenerator
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation(JsonConvert.SerializeObject(_appSettings, Formatting.Indented));
             _timer.Start();
             return Task.CompletedTask;
         }
