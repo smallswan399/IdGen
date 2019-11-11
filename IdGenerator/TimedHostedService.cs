@@ -41,15 +41,16 @@ namespace IdGenerator
             if (_timer.Enabled) _timer.Stop();
             try
             {
-                if (_db.ListLength(List) <= _appSettings.LowLimit)
+                var listLength = _db.ListLength(List);
+                if (listLength <= _appSettings.LowLimit)
                 {
-                    _logger.LogInformation($"Generate {_appSettings.LowLimit} ids.");
                     var ids = _idGenerator.Take(_appSettings.LowLimit).Select(s => (RedisValue)s).ToArray();
-                    _db.ListLeftPush(List, ids);
+                    _db.ListRightPush(List, ids);
+                    _logger.LogInformation($"List length is {listLength}. Generate {_appSettings.LowLimit} ids.");
                 }
                 else
                 {
-                    _logger.LogInformation("Does not need generate ids.");
+                    _logger.LogInformation($"List length is {listLength}. Does not need generate ids.");
                 }
             }
             finally

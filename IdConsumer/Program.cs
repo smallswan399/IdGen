@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Threading;
 using StackExchange.Redis;
 
-namespace IdsConsumer
+namespace IdConsumer
 {
     class Program
     {
@@ -12,7 +11,7 @@ namespace IdsConsumer
             long pre = 0;
             for (int i = 0; i < 10000000; i++)
             {
-                var items = (long)db.ListRightPop("id");
+                var items = (long)db.ListLeftPop("id");
                 if (items <= pre)
                 {
                     throw new Exception();
