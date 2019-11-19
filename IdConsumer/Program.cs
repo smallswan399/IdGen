@@ -7,18 +7,18 @@ namespace IdConsumer
     {
         static void Main(string[] args)
         {
-            var db = ConnectionMultiplexer.Connect("debian-dev").GetDatabase(1);
-            long pre = 0;
-            for (int i = 0; i < 10000000; i++)
+            var db = ConnectionMultiplexer.Connect("debian-dev").GetDatabase(0);
+            while (true)
             {
+                Console.Clear();
                 var items = (long)db.ListLeftPop("id");
-                if (items <= pre)
-                {
-                    throw new Exception();
-                }
-
-                pre = items;
                 Console.WriteLine(items);
+                TextCopy.Clipboard.SetText(items.ToString());
+                var q = Console.ReadLine();
+                if (q?.ToLower() == "q")
+                {
+                    break;
+                }
             }
         }
     }
